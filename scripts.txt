@@ -1,0 +1,2 @@
+# to write all pip installs
+pip freeze > requirements.txt
