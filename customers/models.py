@@ -3,9 +3,12 @@ from django.db.models.fields import CharField
 
 
 from localities.models import Localities
+from utils.model_utils.models import (
+    TimeStampedModel
+)
 
 
-class Customers(models.Model):
+class Customers(TimeStampedModel, models.Model):
     name = CharField(max_length=60)
     contact = CharField(max_length=13)
     house_number = CharField(max_length=7)
