@@ -1,2 +1,17 @@
 # to write all pip installs
 pip freeze > requirements.txt
+
+# activate -> Virtual Environment
+env\Scripts\activate
+
+# change directory
+cd env\veerji_store
+
+# make db schema migration
+py manage.py makemigrations
+
+# migrate database
+py manage.py migrate
+
+# Create an application
+py manage.py startapp <application_name>

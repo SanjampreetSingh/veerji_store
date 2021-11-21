@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'customers',
+    'localities',
 ]
 
 MIDDLEWARE = [
@@ -83,11 +85,11 @@ WSGI_APPLICATION = 'veerji_store.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env("DATABASE_NAME") ,
-        'USER': env("DATABASE_USER") ,
-        'PASSWORD': env("DATABASE_PASSWORD") ,
-        'HOST': env("DATABASE_HOST") ,
-        'PORT': env("DATABASE_PORT") ,
+        'NAME': env("DATABASE_NAME"),
+        'USER': env("DATABASE_USER"),
+        'PASSWORD': env("DATABASE_PASSWORD"),
+        'HOST': env("DATABASE_HOST"),
+        'PORT': env("DATABASE_PORT"),
     }
 }
 
