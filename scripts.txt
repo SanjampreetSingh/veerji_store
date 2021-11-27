@@ -14,4 +14,4 @@ py manage.py makemigrations
 py manage.py migrate
 
 # Create an application
-py manage.py startapp <application_name>
+django-admin startapp <application_name>
