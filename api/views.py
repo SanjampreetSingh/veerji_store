@@ -1,11 +1,11 @@
-from utils.response_utils import ResponseUtils as res
 from datetime import datetime
 from rest_framework.decorators import api_view
-from django.http import JsonResponse
+
+from utils.response_utils import ResponseUtils as res
 
 
 def home(request):
-    return JsonResponse({'info': 'Django React Course'})
+    return res.respond_success()
 
 
 @api_view(['GET'])
