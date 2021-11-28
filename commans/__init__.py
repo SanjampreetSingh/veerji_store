@@ -1,1 +1,0 @@
-from healthcare.commans.data_validators import string_validator
