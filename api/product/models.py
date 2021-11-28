@@ -3,11 +3,18 @@ from django.db import models
 from utils.model_utils.models import (
     TimeStampedModel
 )
+from api.category.models import Category
 
 
 class Product(TimeStampedModel, models.Model):
-    name = models.CharField(max_length=20)
-    cost = models.IntegerField()
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=250)
+    price = models.CharField(max_length=50)
+    stock = models.CharField(max_length=50)
+    is_active = models.BooleanField(default=True, blank=True)
+    image = models.ImageField(
+        upload_to='images/product/', blank=True, null=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return self.name + " - " + str(self.cost)
+        return self.name + " - " + self.price
