@@ -6,4 +6,4 @@ from .models import Locality
 class LocalitySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Locality
-        fields = ['id', 'name']
+        fields = ('id', 'name')
