@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'api.locality',
     'api.product',
     'api.user',
+    'api.sale',
 ]
 
 MIDDLEWARE = [
