@@ -56,11 +56,13 @@ class ResponseUtils:
     def respond_success(
         success=True,
         details="Success",
+        success_message: str = None,
         status=HTTP_200_OK
     ):
         return Response(
             {
                 "success": success,
+                "success_message": success_message,
                 "details": details
             },
             status=status

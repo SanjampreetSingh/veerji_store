@@ -1,5 +1,6 @@
 import random
 import re
+from typing import cast
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 from django.contrib.auth import get_user_model, login, logout
@@ -80,3 +81,20 @@ def signin(request):
             details='error',
             error_message='Invalid email'
         )
+
+
+def signout(request, id) -> None:
+    logout(request)
+    UserModel = get_user_model()
+
+    try:
+        user = UserModel.objects.get(pk=id)
+        user.session_token = "0"
+        user.save()
+    except UserModel.DoesNotExist:
+        return res.respond_error(
+            details='error',
+            error_message='Invalid email'
+        )
+
+    return res.respond_success(success_message='Logout success')
