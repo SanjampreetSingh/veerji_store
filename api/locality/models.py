@@ -1,6 +1,5 @@
 from django.db import models
 
-
 from utils.model_utils.models import (
     TimeStampedModel
 )

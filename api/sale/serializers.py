@@ -9,5 +9,5 @@ class SaleSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'id', 'user',
         )
-
         #  'product_name', 'total_product', 'transaction_id', 'total_amount', 'product',
+
