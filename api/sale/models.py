@@ -10,7 +10,11 @@ from utils.model_utils.models import (
 
 class Sale(TimeStampedModel, models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product_name = models.CharField(max_length=500)
+    total_product = models.CharField(max_length=500, default=0)
+    transaction_id = models.CharField(max_length=150, default=0)
+    total_amount = models.CharField(max_length=50, default=0)
+    # product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "vj_sale"
