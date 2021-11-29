@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'api',
     'api.category',
     'api.locality',
-    'api.product'
+    'api.product',
+    'api.user',
 ]
 
 MIDDLEWARE = [
@@ -163,4 +164,4 @@ REST_FRAMEWORK = {
 }
 
 
-# AUTH_USER_MODEL= api.user.models
+AUTH_USER_MODEL = 'user.User'

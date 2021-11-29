@@ -8,7 +8,7 @@ from utils.model_utils.models import (
 
 
 class User(TimeStampedModel, AbstractUser):
-    name = models.CharField(max_length=50, required=True)
+    name = models.CharField(max_length=50)
     email = models.EmailField(max_length=254, unique=True)
     phone = models.CharField(max_length=20)
     house_number = models.CharField(max_length=10)

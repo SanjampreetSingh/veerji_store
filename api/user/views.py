@@ -1,6 +1,5 @@
 import random
 import re
-from typing import cast
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 from django.contrib.auth import get_user_model, login, logout
@@ -98,3 +97,16 @@ def signout(request, id) -> None:
         )
 
     return res.respond_success(success_message='Logout success')
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    permission_classes_by_action = {'create': [AllowAny]}
+
+    queryset = User.objects.all().order_by('id')
+    serializer_class = UserSerializer
+
+    def get_permissions(self):
+        try:
+            return [ permissions() for permissions in self.permission_classes_by_action[self.action]]
+        except KeyError:
+            return [ permissions() for permissions in self.permission_classes]
