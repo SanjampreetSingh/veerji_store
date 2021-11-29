@@ -18,3 +18,7 @@ class User(TimeStampedModel, AbstractUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
+    class Meta:
+        db_table = "vj_user"
+        verbose_name_plural = "Users"

@@ -1,4 +1,4 @@
-from rest_framework.response import Response
+from django.http import JsonResponse
 from rest_framework.status import (
     HTTP_400_BAD_REQUEST,
     HTTP_200_OK,
@@ -26,7 +26,7 @@ class ResponseUtils:
         Returns:
             Dict: It is a dictionary response.s
         """
-        return Response(
+        return JsonResponse(
             {
                 "success": success,
                 "details": details,
@@ -44,7 +44,7 @@ class ResponseUtils:
         details="Invalid",
         status=HTTP_400_BAD_REQUEST
     ):
-        return Response(
+        return JsonResponse(
             {
                 "success": success,
                 "details": details
@@ -59,7 +59,7 @@ class ResponseUtils:
         success_message: str = None,
         status=HTTP_200_OK
     ):
-        return Response(
+        return JsonResponse(
             {
                 "success": success,
                 "success_message": success_message,
@@ -75,7 +75,7 @@ class ResponseUtils:
         data: dict = None,
         status=HTTP_200_OK
     ):
-        return Response(
+        return JsonResponse(
             {
                 "success": success,
                 "details": details,
@@ -90,7 +90,7 @@ class ResponseUtils:
         details="Success",
         status=HTTP_201_CREATED
     ):
-        return Response(
+        return JsonResponse(
             {
                 "success": success,
                 "details": details,

@@ -18,3 +18,7 @@ class Product(TimeStampedModel, models.Model):
 
     def __str__(self) -> str:
         return self.name + " - " + self.price
+
+    class Meta:
+        db_table = "vj_product"
+        verbose_name_plural = "Products"
