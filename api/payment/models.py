@@ -1,14 +1,14 @@
 from django.db import models
 
-from api.user.models import user
+from api.user.models import User
 from utils.model_utils.models import (
     TimeStampedModel
 )
 
 
 class Payment(TimeStampedModel, models.Model):
-    customer = models.ForeignKey(user, on_delete=models.CASCADE)
-    payments = models.IntegerField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    payments = models.CharField(max_length=10)
 
     class Meta:
         db_table = "vj_payment"
