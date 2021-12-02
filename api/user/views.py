@@ -2,8 +2,10 @@ import random
 import re
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
+from rest_framework.filters import SearchFilter, OrderingFilter
 from django.contrib.auth import get_user_model, login, logout
 from django.views.decorators.csrf import csrf_exempt
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 from .serializer import UserSerializer
@@ -101,9 +103,13 @@ def signout(request, id) -> None:
 
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes_by_action = {'create': [AllowAny]}
-
-    queryset = User.objects.all().order_by('id')
+    queryset = User.objects.all()
     serializer_class = UserSerializer
+    filter_backends= [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['locality']
+    search_fields = ['phone', 'email', 'name', 'house_number']
+    ordering_fields = ['name', 'phone', 'house_number']
+    ordering = ['id']
 
     def get_permissions(self):
         try:
