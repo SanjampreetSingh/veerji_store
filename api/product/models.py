@@ -14,7 +14,7 @@ class Product(TimeStampedModel, models.Model):
     is_active = models.BooleanField(default=True, blank=True)
     image = models.ImageField(
         upload_to='images/product/', blank=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT)
 
     def __str__(self) -> str:
         return self.name + " - " + self.price

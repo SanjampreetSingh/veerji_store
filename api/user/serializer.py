@@ -33,3 +33,4 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             'name', 'email', 'password', 'phone', 'house_number',
             'locality', 'is_active', 'is_staff', 'is_superuser'
         )
+        read_only_field=('is_active', 'created', 'modified')

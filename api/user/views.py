@@ -105,7 +105,7 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes_by_action = {'create': [AllowAny]}
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    filter_backends= [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['locality']
     search_fields = ['=phone', '=email', 'name', 'house_number']
     ordering_fields = ['name', 'phone', 'house_number']

@@ -7,7 +7,7 @@ from utils.model_utils.models import (
 
 
 class Sale(TimeStampedModel, models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
     product_name = models.CharField(max_length=500)
     total_product = models.CharField(max_length=500, default=0)
     transaction_id = models.CharField(max_length=150, default=0)

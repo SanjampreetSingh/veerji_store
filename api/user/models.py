@@ -12,7 +12,7 @@ class User(TimeStampedModel, AbstractUser):
     email = models.EmailField(max_length=254, unique=True)
     phone = models.CharField(max_length=20)
     house_number = models.CharField(max_length=10)
-    locality = models.ForeignKey(Locality, on_delete=models.CASCADE)
+    locality = models.ForeignKey(Locality, on_delete=models.PROTECT)
     session_token = models.CharField(max_length=10, default=0)
     username = None
 

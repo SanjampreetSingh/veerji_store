@@ -7,7 +7,7 @@ from utils.model_utils.models import (
 
 
 class Payment(TimeStampedModel, models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
     payments = models.CharField(max_length=10)
 
     class Meta:
