@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 from api.locality.models import Locality
 from utils.model_utils.models import (
@@ -15,17 +16,24 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStampedModel):
     phone = models.CharField(max_length=15)
     house_number = models.CharField(max_length=8)
     locality = models.ForeignKey(Locality, on_delete=models.PROTECT)
-    username = None
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    date_joined = models.DateTimeField(default=timezone.now)
+    last_login = models.DateTimeField(null=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['name', 'phone', 'house_number', 'locality']
+    REQUIRED_FIELDS = ['name', 'phone', 'house_number']
 
     objects = CustomUserManager()
 
     def __str__(self) -> str:
         return self.name
+
+    def get_full_name(self):
+        return self.name
+
+    def get_short_name(self):
+        return self.name.split()[0]
 
     class Meta:
         db_table = "vj_user"
