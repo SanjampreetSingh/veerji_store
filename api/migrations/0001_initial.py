@@ -16,17 +16,6 @@ class Migration(migrations.Migration):
         loc = Locality(name="G Block SBS Nagar")
         loc.save()
 
-        user = User(
-            name=env('SU_NAME'),
-            email=env('SU_EMAIL'),
-            is_staff=True,
-            is_superuser=True,
-            phone=env('SU_PHONE'),
-            locality=loc
-        )
-        user.set_password(env('SU_PASSWORD'))
-        user.save()
-
     dependencies = []
     operations = [
         migrations.RunPython(seed_data),

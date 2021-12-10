@@ -1,7 +1,7 @@
 import random
 import re
 from rest_framework import viewsets
-from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.permissions import IsAdminUser, DjangoModelPermissions
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django.contrib.auth import get_user_model, login, logout
 from django.views.decorators.csrf import csrf_exempt
@@ -104,10 +104,10 @@ def signout(request, id) -> None:
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes_by_action = {
         'list': [IsAdminUser],
-        'retrieve': [IsAuthenticated],
+        'retrieve': [DjangoModelPermissions],
         'create': [IsAdminUser],
         'update': [IsAdminUser],
-        'partial_update': [IsAuthenticated],
+        'partial_update': [DjangoModelPermissions],
         'destroy': [IsAdminUser],
     }
     queryset = User.objects.all()

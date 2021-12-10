@@ -1,0 +1,20 @@
+# to write all pip installs
+pip freeze > requirements.txt
+
+# activate -> Virtual Environment
+env\Scripts\activate
+
+# change directory
+cd env\veerji_store
+
+# make db schema migration
+py manage.py makemigrations
+
+# migrate database
+py manage.py migrate
+
+# Create an application
+django-admin startapp <application_name>
+
+# You can ignore SSL errors by setting pypi.org and files.pythonhosted.org as well as the older pypi.python.org as trusted hosts.
+pip install --trusted-host pypi.org --trusted-host pypi.python.org --trusted-host files.pythonhosted.org <package_name>
