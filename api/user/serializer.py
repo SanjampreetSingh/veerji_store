@@ -1,11 +1,9 @@
 from rest_framework import serializers
-from rest_framework.decorators import authentication_classes, permission_classes
-from django.contrib.auth.hashers import make_password
 
 from .models import User
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)
@@ -30,7 +28,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         extra_kwargs = {'password': {'write_only': True}}
         fields = (
-            'name', 'email', 'password', 'phone', 'house_number',
-            'locality', 'is_active', 'is_staff', 'is_superuser'
-        )
-        read_only_field=('is_active', 'created', 'modified')
+            'name', 'email', 'password',
+            'phone', 'house_number', 'locality')
+        read_only_field = ('is_active', 'created', 'modified')
