@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import AllowAny, IsAdminUser
 
 from .serializers import LocalitySerializer
 from .models import Locality
@@ -7,6 +7,7 @@ from .models import Locality
 
 class LocalityViewSet(viewsets.ModelViewSet):
     permission_classes_by_action = {
+        'list': [AllowAny],
         'create': [IsAdminUser],
         'update': [IsAdminUser],
         'destroy': [IsAdminUser],
