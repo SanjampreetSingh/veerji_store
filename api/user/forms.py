@@ -10,8 +10,10 @@ class RegistrationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'name', 'phone',
-                  'house_number', 'locality', 'password')
+        fields = (
+            'email', 'name', 'phone',
+            'house_number', 'locality', 'password'
+        )
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -28,8 +30,10 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'name', 'phone', 'house_number',
-                  'locality', 'is_staff', 'is_superuser')
+        fields = (
+            'email', 'name', 'phone', 'house_number',
+            'locality', 'is_staff', 'is_superuser'
+        )
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
