@@ -43,6 +43,7 @@ class BlacklistTokenView(APIView):
             refresh_token = request.data['refresh_token']
             token = RefreshToken(refresh_token)
             token.blacklist()
+            return res.respond_success()
 
         except Exception as e:
             return res.respond_error(error_message=e.message)
