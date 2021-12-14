@@ -7,5 +7,6 @@ router = routers.DefaultRouter()
 router.register(r'', views.UserViewSet)
 
 urlpatterns = [
-    path('', include(router.urls))
+    path('', include(router.urls)), 
+    path('logout/blacklist/', views.BlacklistTokenView.as_view(), name='blacklist')
 ]
