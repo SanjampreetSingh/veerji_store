@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny, IsAdminUser, DjangoModelPermissions, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAdminUser, DjangoModelPermissions
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -36,7 +36,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class BlacklistTokenView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def post(self, request):
         try:
