@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import RecurringProduct
 
 
-class RecurringProductSerializer(serializers.HyperlinkedModelSerializer):
+class RecurringProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = RecurringProduct
