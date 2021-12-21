@@ -4,6 +4,8 @@ from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    locality_name = serializers.CharField(
+        source="locality.name", read_only=True)
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)
@@ -29,5 +31,5 @@ class UserSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}
         fields = (
             'name', 'email', 'password',
-            'phone', 'house_number', 'locality')
+            'phone', 'house_number', 'locality', 'locality_name')
         read_only_field = ('is_active', 'created', 'modified')
