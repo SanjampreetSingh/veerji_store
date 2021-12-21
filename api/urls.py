@@ -1,5 +1,6 @@
 from django.urls import path, include
 from .views import checkserver, MyTokenObtainPairView
+from api.locality.views import LocalityList
 
 urlpatterns = [
     path('', checkserver, name='api.checkserver'),
@@ -14,5 +15,7 @@ urlpatterns = [
         MyTokenObtainPairView.as_view(),
         name='token_obtain_pair'
     ),
+    path('list/locality/', LocalityList.as_view(), name='locality-list')
+
 
 ]
