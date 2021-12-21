@@ -1,6 +1,7 @@
 from django.urls import path, include
 from .views import checkserver, MyTokenObtainPairView
 from api.locality.views import LocalityList
+from api.product.views import ProductList
 
 urlpatterns = [
     path('', checkserver, name='api.checkserver'),
@@ -15,7 +16,8 @@ urlpatterns = [
         MyTokenObtainPairView.as_view(),
         name='token_obtain_pair'
     ),
-    path('list/locality/', LocalityList.as_view(), name='locality-list')
+    path('list/locality/', LocalityList.as_view(), name='locality-list'),
+    path('list/product/', ProductList.as_view(), name='product-list')
 
 
 ]
