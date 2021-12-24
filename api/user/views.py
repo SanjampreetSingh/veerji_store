@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny, IsAdminUser, DjangoModelPermissions
+from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -14,10 +14,10 @@ from utils.response_utils import ResponseUtils as res
 class UserViewSet(viewsets.ModelViewSet):
     permission_classes_by_action = {
         'list': [IsAdminUser],
-        'retrieve': [DjangoModelPermissions],
+        'retrieve': [IsAdminUser],
         'create': [AllowAny],
         'update': [IsAdminUser],
-        'partial_update': [DjangoModelPermissions],
+        'partial_update': [IsAdminUser],
         'destroy': [IsAdminUser],
     }
     queryset = User.objects.all()
