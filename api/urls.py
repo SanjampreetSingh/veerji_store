@@ -10,7 +10,6 @@ urlpatterns = [
     path('product/', include('api.product.urls')),
     path('user/', include('api.user.urls')),
     path('sale/', include('api.sale.urls')),
-    path('recurring_product/', include('api.recurring_product.urls')),
     path(
         'token/',
         MyTokenObtainPairView.as_view(),

@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     'api.product',
     'api.user',
     'api.sale',
-    'api.recurring_product',
 ]
 
 MIDDLEWARE = [

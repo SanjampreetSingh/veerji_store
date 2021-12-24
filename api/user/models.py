@@ -15,6 +15,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStampedModel):
     email = models.EmailField(_('email address'), max_length=254, unique=True)
     phone = models.CharField(max_length=15)
     payment = models.IntegerField(null=True, default=0)
+    recurring_product = models.TextField(default="[]")
     locality = models.ForeignKey(Locality, on_delete=models.PROTECT)
     house_number = models.CharField(max_length=8)
     is_staff = models.BooleanField(default=False)

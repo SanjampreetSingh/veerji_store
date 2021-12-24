@@ -12,7 +12,8 @@ class CustomUserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(
             email=email, name=name, phone=phone,
-            house_number=house_number, payment=0, **extra_fields
+            house_number=house_number, payment=0,
+            recurring_product="[]", **extra_fields
         )
         user.set_password(password)
         user.save()
