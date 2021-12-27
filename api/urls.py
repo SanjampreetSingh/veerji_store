@@ -2,6 +2,7 @@ from django.urls import path, include
 from .views import checkserver, MyTokenObtainPairView
 from api.locality.views import LocalityList
 from api.product.views import ProductList
+from api.sale.views import add_recurring_product
 
 urlpatterns = [
     path('', checkserver, name='api.checkserver'),
@@ -16,7 +17,6 @@ urlpatterns = [
         name='token_obtain_pair'
     ),
     path('list/locality/', LocalityList.as_view(), name='locality-list'),
-    path('list/product/', ProductList.as_view(), name='product-list')
-
-
+    path('list/product/', ProductList.as_view(), name='product-list'),
+    path('add/sale/recurring_product/', add_recurring_product, name='sale.add_recurring_product')
 ]

@@ -1,10 +1,13 @@
+import json
 from rest_framework import viewsets
-from django.contrib.auth import get_user_model
-from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import permission_classes, api_view
+from rest_framework.permissions import IsAuthenticated
 
 from .serializers import SaleSerializer
 from .models import Sale
 from utils.response_utils import ResponseUtils as res
+from api.user.models import User
+from api.product.models import Product
 
 
 class SaleViewSet(viewsets.ModelViewSet):
@@ -12,52 +15,30 @@ class SaleViewSet(viewsets.ModelViewSet):
     serializer_class = SaleSerializer
 
 
-def validate_user_session(id, token):
-    UserModel = get_user_model()
-    try:
-        user = UserModel.objects.get(pk=id)
-        if user.session_token == token:
-            return True
-    except UserModel.DoesNotExist:
-        return False
-
-
-@csrf_exempt
-def add(request, id, token):
-    if not validate_user_session(id, token):
-        return res.respond_error(
-            details='error',
-            error_message='Please re-login'
-        )
-
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def add_recurring_product(request):
     if not request.method == "POST":
         return res.respond_error(
             details='error',
             error_message='Send a POST request with valid parameter only'
         )
-
-    transaction_id = request.POST['transaction_id']
-    amount = request.POST['amount']
-    products = request.POST['products']
-
-    total_product = len(products.split(',')[:-1])
-
-    UserModel = get_user_model()
     try:
-        user = UserModel.objects.get(pk=id)
-    except UserModel.DoesNotExist:
-        return res.respond_error(
-            details='error',
-            error_message='User does not exist'
-        )
+        users = User.objects.all().exclude(
+            recurring_product="[]").values('id', 'recurring_product')
+    except Exception as e:
+        return res.respond_error(error_message=e.message)
 
-    sale = Sale(
-        user=user,
-        product_name=products,
-        total_product=total_product,
-        transaction_id=transaction_id,
-        total_amount=amount
-    )
-
-    sale.save()
-    return res.respond_success(success_message='Sales added')
+    for user in users:
+        user_id = user.get('id')
+        products = json.loads(user.get('recurring_product'))
+        for product in products:
+            product_id = product.get('productId')
+            quantity = product.get('quantity')
+            try:
+                sale = Sale(user=User(pk=user_id), product=Product(
+                    pk=product_id), quantity=int(quantity))
+                sale.save()
+            except Exception as e:
+                return res.respond_error(error_message=e.message)
+    return res.respond_success(success_message='Recurring sales added')

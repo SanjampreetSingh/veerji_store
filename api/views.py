@@ -1,12 +1,14 @@
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from datetime import datetime
-from rest_framework.decorators import api_view
+from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from utils.response_utils import ResponseUtils as res
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
 def checkserver(request):
     message = 'Server is live at ' + datetime.now().strftime("%d-%m-%Y %H:%M:%S")
     return res.respond_success(details=message)
