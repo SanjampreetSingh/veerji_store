@@ -1,22 +1,33 @@
 import json
 from rest_framework import viewsets
 from rest_framework.decorators import permission_classes, api_view
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAdminUser
 
-from .serializers import SaleSerializer
 from .models import Sale
+from .serializers import SaleSerializer
 from utils.response_utils import ResponseUtils as res
 from api.user.models import User
 from api.product.models import Product
 
 
 class SaleViewSet(viewsets.ModelViewSet):
+    permission_classes_by_action = {
+        'create': [IsAdminUser],
+        'update': [IsAdminUser],
+        'destroy': [IsAdminUser],
+    }
     queryset = Sale.objects.all().order_by('created')
     serializer_class = SaleSerializer
 
+    def get_permissions(self):
+        try:
+            return [permissions() for permissions in self.permission_classes_by_action[self.action]]
+        except KeyError:
+            return [permissions() for permissions in self.permission_classes]
+
 
 @api_view(["POST"])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAdminUser])
 def add_recurring_product(request):
     try:
         users = User.objects.all().exclude(
