@@ -11,18 +11,13 @@ from api.product.models import Product
 
 
 class SaleViewSet(viewsets.ModelViewSet):
-    queryset = Sale.objects.all().order_by('id')
+    queryset = Sale.objects.all().order_by('created')
     serializer_class = SaleSerializer
 
 
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def add_recurring_product(request):
-    if not request.method == "POST":
-        return res.respond_error(
-            details='error',
-            error_message='Send a POST request with valid parameter only'
-        )
     try:
         users = User.objects.all().exclude(
             recurring_product="[]").values('id', 'recurring_product')
