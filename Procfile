@@ -1,1 +1,1 @@
-web: gunicorn myproject.wsgi
+web: gunicorn veerji_store.wsgi  --log-file -
