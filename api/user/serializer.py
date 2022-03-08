@@ -35,3 +35,14 @@ class UserSerializer(serializers.ModelSerializer):
             'locality_name', 'payment', 'recurring_product'
         )
         read_only_field = ('is_active', 'created', 'modified')
+
+
+class UserListSerializer(serializers.ModelSerializer):
+    locality_name = serializers.CharField(
+        source="locality.name", read_only=True)
+
+    class Meta:
+        model = User
+        fields = (
+            'id', 'name', 'locality', 'house_number', 'locality_name'
+        )

@@ -1,4 +1,4 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.filters import SearchFilter, OrderingFilter
@@ -6,7 +6,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
-from .serializer import UserSerializer
+from .serializer import UserSerializer, UserListSerializer
 from .models import User
 from utils.response_utils import ResponseUtils as res
 
@@ -47,3 +47,9 @@ class BlacklistTokenView(APIView):
 
         except Exception as e:
             return res.respond_error(error_message=e.message)
+
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all().order_by('name')
+    serializer_class = UserListSerializer
+    permission_classes = [IsAdminUser]
