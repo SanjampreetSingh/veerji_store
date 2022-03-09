@@ -1,12 +1,13 @@
 from rest_framework import viewsets, generics
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.response import Response
 
 
-from .serializer import UserSerializer, UserListSerializer
+from .serializer import UserSerializer, UserListSerializer, UserRetrieveSerializer
 from .models import User
 from utils.response_utils import ResponseUtils as res
 
@@ -53,3 +54,20 @@ class UserList(generics.ListAPIView):
     queryset = User.objects.all().order_by('name')
     serializer_class = UserListSerializer
     permission_classes = [IsAdminUser]
+
+
+class UserGetUser(generics.RetrieveAPIView):
+    serializer_class = UserRetrieveSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        try:
+            user = User.objects.get(pk=str(request.user.id))
+        except(User.DoesNotExist):
+            user = None
+
+        if user is not None:
+            serializer = UserRetrieveSerializer(user)
+            return Response(data=serializer.data)
+        else:
+            return res.respond_error(error_message='Invalid user.')

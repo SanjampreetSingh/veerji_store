@@ -30,9 +30,8 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         extra_kwargs = {'password': {'write_only': True}}
         fields = (
-            'id', 'name', 'email', 'password',
-            'phone', 'house_number', 'locality',
-            'locality_name', 'payment', 'recurring_product'
+            'id', 'name', 'email', 'password', 'phone', 'house_number',
+            'locality', 'locality_name', 'payment', 'recurring_product'
         )
         read_only_field = ('is_active', 'created', 'modified')
 
@@ -43,6 +42,16 @@ class UserListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
+        fields = ('id', 'name', 'locality', 'house_number', 'locality_name')
+
+
+class UserRetrieveSerializer(serializers.ModelSerializer):
+    locality_name = serializers.CharField(
+        source="locality.name", read_only=True)
+
+    class Meta:
+        model = User
         fields = (
-            'id', 'name', 'locality', 'house_number', 'locality_name'
+            'id', 'name', 'email', 'phone', 'house_number', 'locality',
+            'locality_name', 'payment', 'recurring_product'
         )
