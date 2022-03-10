@@ -154,8 +154,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # CORS_ALLOWED_ORIGINS = ["https://www.veerji.store"]
-CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
-# CORS_ALLOWED_ORIGINS = env("CORS_ALLOW_ORIGINS")
+# CORS_ALLOWED_ORIGINS = ["http://localhost:3000"]
+CORS_ALLOWED_ORIGINS = env("CORS_ALLOW_ORIGINS")
 
 
 REST_FRAMEWORK = {
