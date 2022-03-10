@@ -3,7 +3,7 @@ from .views import checkserver, MyTokenObtainPairView
 from api.locality.views import LocalityList
 from api.product.views import ProductList
 from api.user.views import UserList, UserGetUser
-from api.sale.views import add_recurring_product
+from api.sale.views import add_recurring_product, GetSalePerUser
 
 urlpatterns = [
     path('', checkserver, name='api.checkserver'),
@@ -25,5 +25,10 @@ urlpatterns = [
         'add/sale/recurring_product/',
         add_recurring_product,
         name='sale.add_recurring_product'
+    ),
+    path(
+        'get/sale-per-user/<month>/<year>/',
+        GetSalePerUser.as_view(),
+        name='sale.sale_per_user'
     )
 ]
