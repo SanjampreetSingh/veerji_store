@@ -2,7 +2,9 @@ import json
 from rest_framework import viewsets, generics
 from rest_framework.decorators import permission_classes, api_view
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.response import Response
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Sale
 from .serializers import SaleSerializer
@@ -19,6 +21,10 @@ class SaleViewSet(viewsets.ModelViewSet):
     }
     queryset = Sale.objects.all().order_by('created')
     serializer_class = SaleSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['created']
+    search_fields = ['user__name', 'user__phone']
+    ordering_fields = ['created']
 
     def get_permissions(self):
         try:
