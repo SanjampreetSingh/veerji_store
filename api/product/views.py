@@ -1,5 +1,7 @@
 from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .serializers import ProductSerializer, ProductListSerializer
 from .models import Product
@@ -11,8 +13,13 @@ class ProductViewSet(viewsets.ModelViewSet):
         'update': [IsAdminUser],
         'destroy': [IsAdminUser],
     }
-    queryset = Product.objects.all().order_by('category')
+    queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['category']
+    search_fields = ['name']
+    ordering_fields = ['name', 'category', 'price']
+    ordering = ['category']
 
     def get_permissions(self):
         try:
