@@ -4,7 +4,6 @@ from rest_framework.decorators import permission_classes, api_view
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.response import Response
-from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Sale
 from .serializers import SaleSerializer
@@ -21,8 +20,7 @@ class SaleViewSet(viewsets.ModelViewSet):
     }
     queryset = Sale.objects.all().order_by('created')
     serializer_class = SaleSerializer
-    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-    filterset_fields = ['created']
+    filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['user__name', 'user__phone']
     ordering_fields = ['created']
 
@@ -73,6 +71,24 @@ class GetSalePerUser(generics.RetrieveAPIView):
                 created__year__lte=year,
                 created__month__lte=month
             )
+        except(Sale.DoesNotExist):
+            sale = None
+
+        if sale is not None:
+            serializer = SaleSerializer(sale, many=True)
+            return Response(data=serializer.data)
+        else:
+            return res.respond_error(error_message='Invalid user.')
+
+
+class FilterSaleByDate(generics.ListAPIView):
+    serializer_class = SaleSerializer
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, format=None, *args, **kwargs):
+        try:
+            date = str(self.kwargs['date'])
+            sale = Sale.objects.all().filter(created__date=date)
         except(Sale.DoesNotExist):
             sale = None
 
