@@ -89,7 +89,7 @@ def start_payment(request):
             auth=(settings.PAYMENT_PUBLIC_KEY, settings.PAYMENT_SECRET_KEY))
 
         order_obj = {
-            "amount": int(user.get('payment')) * 100,
+            "amount": int(user.payment) * 100,
             "currency": "INR",
             "payment_capture": "1"
         }
