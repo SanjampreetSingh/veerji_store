@@ -2,7 +2,7 @@ from django.urls import path, include
 from .views import checkserver, MyTokenObtainPairView
 from api.locality.views import LocalityList
 from api.product.views import ProductList
-from api.user.views import UserList, UserGetUser
+from api.user.views import UserList, UserGetUser, start_payment
 from api.sale.views import add_recurring_product, GetSalePerUser, FilterSaleByDate
 
 urlpatterns = [
@@ -35,5 +35,6 @@ urlpatterns = [
         'filter/sale_by_date/<date>/',
         FilterSaleByDate.as_view(),
         name='sale.sale_by_date'
-    )
+    ),
+    path('pay/', start_payment, name="payment"),
 ]

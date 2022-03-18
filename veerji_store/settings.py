@@ -212,3 +212,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+PAYMENT_PUBLIC_KEY = env("PAYMENT_PUBLIC_KEY")
+PAYMENT_SECRET_KEY = env("PAYMENT_SECRET_KEY")

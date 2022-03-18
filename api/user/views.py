@@ -1,11 +1,14 @@
+import razorpay
+
+from django.conf import settings
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, generics
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.filters import SearchFilter, OrderingFilter
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
-
+from rest_framework.decorators import api_view
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from .serializer import UserSerializer, UserListSerializer, UserRetrieveSerializer
 from .models import User
@@ -71,3 +74,33 @@ class UserGetUser(generics.RetrieveAPIView):
             return Response(data=serializer.data)
         else:
             return res.respond_error(error_message='Invalid user.')
+
+
+@api_view(['POST'])
+def start_payment(request):
+    try:
+        user = User.objects.get(pk=str(request.user.id))
+    except(User.DoesNotExist):
+        user = None
+
+    if user is not None:
+        # setup razorpay client
+        client = razorpay.Client(
+            auth=(settings.PAYMENT_PUBLIC_KEY, settings.PAYMENT_SECRET_KEY))
+
+        order_obj = {
+            "amount": int(user.get('payment')) * 100,
+            "currency": "INR",
+            "payment_capture": "1"
+        }
+
+        # create razorpay order
+        payment = client.order.create(order_obj)
+
+        data = {
+            "payment": payment,
+        }
+        return Response(data)
+
+    else:
+        return res.respond_error(error_message='Invalid user.')
