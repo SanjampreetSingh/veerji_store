@@ -1,5 +1,5 @@
 import razorpay
-
+from django.db.models import F
 from django.conf import settings
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, generics
@@ -7,11 +7,12 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from .serializer import UserSerializer, UserListSerializer, UserRetrieveSerializer
 from .models import User
+from api.sale.models import Sale
 from utils.response_utils import ResponseUtils as res
 
 
@@ -104,3 +105,22 @@ def start_payment(request):
 
     else:
         return res.respond_error(error_message='Invalid user.')
+
+
+@api_view(["POST"])
+@permission_classes([AllowAny])
+def update_pending_payment(request, format=None, *args, **kwargs):
+    try:
+        date = str(kwargs['date'])
+        sales = Sale.objects.all().filter(created__date=date)
+    except (Sale.DoesNotExist):
+        sales = None
+
+    for sale in sales:
+        try:
+            User.objects.filter(id=sale.user.id).update(
+                payment=(F('payment')+(int(sale.product.price)*sale.quantity)))
+        except Exception as e:
+            return res.respond_error(error_message=e.message)
+
+    return res.respond_success(success_message='Pending payment updated successfully!')
